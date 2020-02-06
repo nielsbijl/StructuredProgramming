@@ -107,4 +107,5 @@ def sort(lst):
             if lst[i] > lst[i + 1]:
                 lst[i], lst[i + 1] = lst[i + 1], lst[i]
                 swapped = True
+
 """****************OPDRACHT 6-------- Gemiddelde berekenen*************"""
