@@ -107,5 +107,97 @@ def sort(lst):
             if lst[i] > lst[i + 1]:
                 lst[i], lst[i + 1] = lst[i + 1], lst[i]
                 swapped = True
-
 """****************OPDRACHT 6-------- Gemiddelde berekenen*************"""
+def everedgeList(lst):
+    total = 0
+    for x in lst:
+        total = total + int(x)
+    return total / len(lst)
+def everedgeListInList(lst):
+    total = 0
+    sumListLength = 0
+    for list in lst:
+        sumListLength = sumListLength + len(list)
+        for x in list:
+            total = total + int(x)
+    return total / sumListLength
+"""****************OPDRACHT 7-------- Random*************"""
+def random():
+    import random
+    x = True
+    while x:
+        randomInt = random.randrange(0, 10)
+        guestInt = int(input("Give me a number between 0-10: "))
+        if randomInt == guestInt:
+            print("You did it!")
+            x = False
+"""****************OPDRACHT 8------- Compressie*************"""
+def compress():
+    with open("textfile.txt", "r") as file:
+        lines = file.readlines()
+        string = ''
+        for line in lines:
+            line = line.lstrip()
+            string = string + line
+    with open("newfile.txt", "w") as newfile:
+        newfile.write(string)
+"""****************OPDRACHT 9------- Cyclisch verschuiven*************"""
+def bitShift(ch, n):
+    bit = str(ch)
+    if n > 0:
+        for x in range(n):
+            removedBit = bit[0]
+            bit = bit[1:]
+            bit = bit + removedBit
+    elif n < 0:
+        for x in range(abs(n)):
+            removedBit = bit[-1]
+            bit = bit[:-1]
+            bit = removedBit + bit
+    else:
+        bit = "n is invalid"
+    return bit
+"""****************OPDRACHT 10------- Fibonaci*************"""
+def fibonacci(lst, n):
+    if n >= 1:
+        n -= 1
+        sum = lst[-1] + lst[-2]
+        lst.append(sum)
+        return fibonacci(lst, n)
+    else:
+        return lst
+"""****************OPDRACHT 11------- Caesarcijfer*************"""
+def caesarTranslate():
+    import string
+    alphabet = string.ascii_lowercase
+    alphabetUppercase = string.ascii_uppercase
+    text = input("Geef een tekst: ")
+    rotation = int(input("Geef een rotatie: "))
+    newsentence = ''
+    for letter in text:
+        if letter.lower() in alphabet:
+            index = 0
+            for x in alphabet:
+                if letter.lower() == x.lower():
+                    break
+                index += 1
+            sum = index + rotation
+            while sum > 25:
+                sum -= 26
+            if letter in alphabet:
+                letter = alphabet[sum]
+            else:
+                letter = alphabetUppercase[sum]
+        newsentence = newsentence + letter
+    return "Caesarcode: {sentence}".format(sentence= newsentence)
+"""****************OPDRACHT 12------- FizzBuzz*************"""
+def fizzBuzz():
+    for i in range(1, 101):
+        if ((i % 3) == 0) and ((i % 5) == 0):
+            print("FizzBuzz")
+        elif (i % 3) == 0:
+            print("Fizz")
+        elif (i % 5) == 0:
+            print("Buzz")
+        else:
+            print(i)
