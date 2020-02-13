@@ -23,20 +23,20 @@ def mastermind():
 def kraker(code, gameBord, codeGuess):
         positionCorrect = 0
         colorCorrect = 0
-        for p in codeGuess:
-            if p in code:
+        for p in code:
+            if p in codeGuess:
                 colorCorrect += 1
+        for x in range(len(codeGuess)):
+            if codeGuess[x] == code[x]:
+                positionCorrect += 1
         gameBordFullPlus = ["({})({})({})({})  [{}][{}] ".format(codeGuess[0], codeGuess[1], codeGuess[2], codeGuess[3], positionCorrect, colorCorrect)]
         gameBord = gameBord + gameBordFullPlus
         print(gameBord)
         print(code)
         print('\n')
         return gameBord
-            # if codeGuess == code:
-            #     print("Je hebt gewonnen!, je bent een mastermind!!!")
-            #     break
 def guess():
-    print("\n(R)ood, (B)lauw, (G)roen, (P)raas, (Z)wart en (W)it")
+    print("\n(R)ood, (B)lauw, (G)roen, (P)aars, (Z)wart en (W)it")
     color1 = input('Kleur1: ')
     color2 = input('Kleur2: ')
     color3 = input('Kleur3: ')
@@ -70,7 +70,7 @@ def gameRules():
           "De Code-kraker heeft 10 pogingen.\n"
           "Rechts van de kleuren combinatie zie je hoeveel kleuren in de juiste positie staan.\n"
           "Daarnaast staan hoeveel van de gekozen kleuren in de codecombinatie voorkomen.\n"
-          "Het spel bestaat uit de volgende kleuren: (R)ood, (B)lauw, (G)roen, (P)raas, (Z)wart en (W)it\n")
+          "Het spel bestaat uit de volgende kleuren: (R)ood, (B)lauw, (G)roen, (P)aars, (Z)wart en (W)it\n")
     return rules
 
 
