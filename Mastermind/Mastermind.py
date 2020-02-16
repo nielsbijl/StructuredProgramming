@@ -2,34 +2,44 @@ def mastermind():
     print(gameRules())
     player = mastermindPlayerChoice()
     gameBord = []
+    codeGuess = [' ', ' ', ' ', ' ']
+    positionCorrect = 0
+    colorCorrect = 0
     for i in range(10):
-        gameBordEmptyPlus = ["({})({})({})({})  [{}][{}] ".format(' ', ' ', ' ', ' ', ' ', ' ')]
-        gameBord = gameBord + gameBordEmptyPlus
-        print('\n\n')
-        for emptylines in gameBord:
-            print(emptylines)
-        print('\n')
+        gameBord = gameBordCreate(gameBord, codeGuess, positionCorrect, colorCorrect)
+    for gameBordLines in gameBord:
+        print(gameBordLines)
     if player == 'kraker':
         code = randomCode()
-        for x in range(10):
-            codeGuess = guess()
-            print("\n")
-            check = checkGuess(code, codeGuess)
-            positionCorrect = check[0]
-            colorCorrect = check[1]
-            gameBord = gameBordCreate(gameBord[1:], codeGuess, positionCorrect, colorCorrect)
-            for lines in gameBord:
-                print(lines)
-            if codeGuess == code:
-                print(
-                    'Je bent een mastermind, het is je gelukt de code te kraken! Het koste je: ' + str(
-                        x + 1) + ' beurten! \n')
-                break
     else:
+        print("Verzin de geheime code!")
         code = guess()
         algorithm = input("Welk algoritme wilt u runnen? [random]")
-        if algorithm == 'random':
-            randomCode()
+    for x in range(10):
+        if player == 'kraker':
+            codeGuess = guess()
+        else:
+            if algorithm == 'random':
+                codeGuess = randomCode()
+        gameBord = mastermindPlay(code, gameBord, codeGuess)
+        if gameBord == True:
+            print('Je bent een mastermind, het is je gelukt de code te kraken! Het kostte je: ' + str(
+                x + 1) + ' beurten! \n')
+            break
+        else:
+            for turn in gameBord:
+                print(turn)
+
+def mastermindPlay(code, gameBord, codeGuess):
+    print("\n")
+    check = checkGuess(code, codeGuess)
+    positionCorrect = check[0]
+    colorCorrect = check[1]
+    gameBord = gameBordCreate(gameBord[1:], codeGuess, positionCorrect, colorCorrect)
+    if codeGuess == code:
+        return True
+    else:
+        return gameBord
 
 def checkGuess(code, codeGuess):
     print(code)
