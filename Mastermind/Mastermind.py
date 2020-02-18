@@ -1,3 +1,4 @@
+import codeBreaker as breaker
 def mastermind():
     print(gameRules())
     player = mastermindPlayerChoice()
@@ -14,13 +15,20 @@ def mastermind():
     else:
         print("Verzin de geheime code!")
         code = guess()
-        algorithm = input("Welk algoritme wilt u runnen? [random]")
+        algorithm = input("Welk algoritme wilt u runnen? [random/simple]")
+    possibility = breaker.combinationList()
     for x in range(10):
         if player == 'kraker':
             codeGuess = guess()
         else:
+            check = checkGuess(code, codeGuess)
+            positionCorrect = check[0]
+            colorCorrect = check[1]
             if algorithm == 'random':
                 codeGuess = randomCode()
+            elif algorithm == "simple":
+                possibility = breaker.simple(positionCorrect, colorCorrect, possibility, x)
+                codeGuess = possibility[0]
         gameBord = mastermindPlay(code, gameBord, codeGuess)
         if gameBord == True:
             print('Je bent een mastermind, het is je gelukt de code te kraken! Het kostte je: ' + str(
@@ -40,7 +48,6 @@ def mastermindPlay(code, gameBord, codeGuess):
         return True
     else:
         return gameBord
-
 def checkGuess(code, codeGuess):
     print(code)
     positionCorrect = 0
