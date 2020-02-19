@@ -1,4 +1,5 @@
 import codeBreaker as breaker
+import checkCode as checkCode
 def mastermind():
     print(gameRules())
     player = mastermindPlayerChoice()
@@ -6,41 +7,40 @@ def mastermind():
     codeGuess = [' ', ' ', ' ', ' ']
     positionCorrect = 0
     colorCorrect = 0
-    for i in range(10):
+    for emptyGameBordLine in range(10):
         gameBord = gameBordCreate(gameBord, codeGuess, positionCorrect, colorCorrect)
-    for gameBordLines in gameBord:
-        print(gameBordLines)
+        print(gameBord[emptyGameBordLine])
     if player == 'kraker':
         code = randomCode()
     else:
         print("Verzin de geheime code!")
         code = guess()
         algorithm = input("Welk algoritme wilt u runnen? [random/simple]")
-    possibility = breaker.combinationList()
-    for x in range(10):
+    possibleCode = breaker.combinationList() #Lijst met alle mogelijke codes
+    for gameTurn in range(10):       #Vanaf hier beginnen de 10 beurten
         if player == 'kraker':
             codeGuess = guess()
         else:
-            check = checkGuess(code, codeGuess)
+            check = checkCode.checkGuess(code, codeGuess)
             positionCorrect = check[0]
             colorCorrect = check[1]
             if algorithm == 'random':
                 codeGuess = randomCode()
             elif algorithm == "simple":
-                possibility = breaker.simple(positionCorrect, colorCorrect, possibility, x)
-                codeGuess = possibility[0]
-        gameBord = mastermindPlay(code, gameBord, codeGuess)
+                possibleCode = breaker.simple(positionCorrect, colorCorrect, possibleCode, gameTurn)
+                codeGuess = possibleCode[0]
+        gameBord = gameBordUpdate(code, gameBord, codeGuess)
         if gameBord == True:
-            print('Je bent een mastermind, het is je gelukt de code te kraken! Het kostte je: ' + str(
-                x + 1) + ' beurten! \n')
+            print('De code is gekraakt!!! Het kostte : ' + str(
+                gameTurn + 1) + ' beurten! \n')
             break
         else:
             for turn in gameBord:
                 print(turn)
 
-def mastermindPlay(code, gameBord, codeGuess):
+def gameBordUpdate(code, gameBord, codeGuess):
     print("\n")
-    check = checkGuess(code, codeGuess)
+    check = checkCode.checkGuess(code, codeGuess)
     positionCorrect = check[0]
     colorCorrect = check[1]
     gameBord = gameBordCreate(gameBord[1:], codeGuess, positionCorrect, colorCorrect)
@@ -48,23 +48,7 @@ def mastermindPlay(code, gameBord, codeGuess):
         return True
     else:
         return gameBord
-def checkGuess(code, codeGuess):
-    print(code)
-    positionCorrect = 0
-    colorCorrect = 0
-    codeList = []
-    codeList += codeGuess
-    for color in code:
-        for p in codeList:
-            if color == p:
-                colorCorrect += 1
-                codeList.remove(p)
-                break
-    for x in range(len(codeGuess)):
-        if codeGuess[x] == code[x]:
-            positionCorrect += 1
-    colorCorrect -= positionCorrect
-    return positionCorrect, colorCorrect
+
 def gameBordCreate(gameBord, codeGuess, positionCorrect, colorCorrect):
     gameBordFullPlus = ["({})({})({})({})  [{}][{}] ".format(codeGuess[0], codeGuess[1], codeGuess[2], codeGuess[3], positionCorrect, colorCorrect)]
     gameBord = gameBord + gameBordFullPlus

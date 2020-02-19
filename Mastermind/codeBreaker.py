@@ -1,3 +1,4 @@
+import checkCode as checkCode
 def combinationList():
     colors = ['r', 'b', 'g', 'p', 'z', 'w']
     combinations = []
@@ -8,34 +9,56 @@ def combinationList():
                     combinations.append([color1, color2, color3, color4])
     return sorted(combinations)
 
-def simple(positionCorrect, colorCorrect, possibility, x):#A Simple Strategy
+def simple(positionCorrect, colorCorrect, possibleCode, gameTurn):#A Simple Strategy
     oldPossibility = []
-    oldPossibility += possibility
-    if x > 0:
-        guesstColor = possibility[0]
-        possibility.remove(guesstColor)
-        colorCounter = []
-        for c in guesstColor:
-            colorCounter.append([c, guesstColor.count(c)])
-        for s in colorCounter:
-            if s[1] > 2:
-                keep = s[0]
-        for i in oldPossibility:
-            for color in guesstColor:
-                if color in i:
-                    if (positionCorrect == 0) and (colorCorrect == 0):
-                        if i in possibility:
-                            possibility.remove(i)
-                    elif (positionCorrect == 0) and (colorCorrect == 4):
-                        if i not in possibility:
-                            possibility.remove(i)
-                    elif (positionCorrect == 2) and (colorCorrect == 2):
-                        if i not in possibility:
-                            possibility.remove(i)
-                    elif (positionCorrect == 1) and (colorCorrect == 2):
-                        if keep not in possibility:
-                            possibility.remove(i)
-                    elif (positionCorrect == 2) and (colorCorrect == 1):
-                        if keep not in possibility:
-                            possibility.remove(i)
-    return possibility
+    oldPossibility += possibleCode
+    feedback = (positionCorrect, colorCorrect)
+    if gameTurn > 0:
+        guesstColor = possibleCode[0]
+        oldPossibility.remove(guesstColor)
+        for possibleCode in possibleCode:
+            check = checkCode.checkGuess(guesstColor, possibleCode)
+            if check != feedback:
+                if possibleCode in oldPossibility:
+                    oldPossibility.remove(possibleCode)
+    return oldPossibility
+#possibility = combinationList()
+
+#print(simple(1, 0, possibility, 1))
+
+
+
+
+
+
+# def simple(positionCorrect, colorCorrect, possibility, x):#A Simple Strategy
+#     oldPossibility = []
+#     oldPossibility += possibility
+#     if x > 0:
+#         guesstColor = possibility[0]
+#         possibility.remove(guesstColor)
+#         colorCounter = []
+#         for c in guesstColor:
+#             colorCounter.append([c, guesstColor.count(c)])
+#         for s in colorCounter:
+#             if s[1] > 2:
+#                 keep = s[0]
+#         for i in oldPossibility:
+#             for color in guesstColor:
+#                 if color in i:
+#                     if (positionCorrect == 0) and (colorCorrect == 0):
+#                         if i in possibility:
+#                             possibility.remove(i)
+#                     elif (positionCorrect == 0) and (colorCorrect == 4):
+#                         if i not in possibility:
+#                             possibility.remove(i)
+#                     elif (positionCorrect == 2) and (colorCorrect == 2):
+#                         if i not in possibility:
+#                             possibility.remove(i)
+#                     elif (positionCorrect == 1) and (colorCorrect == 2):
+#                         if keep not in possibility:
+#                             possibility.remove(i)
+#                     elif (positionCorrect == 2) and (colorCorrect == 1):
+#                         if keep not in possibility:
+#                             possibility.remove(i)
+#     return possibility
