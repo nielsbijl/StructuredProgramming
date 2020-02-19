@@ -41,43 +41,22 @@ def worstCaseAlgorithm(possibleCode):
     return colorPossibleFeedback[0][0]
 
 
+def nielsAlgorithm(positionCorrect, colorCorrect, possibleCode, gameTurn):#eerste algaritme
+    import random
+    newPossibility = []
+    newPossibility += possibleCode
+    first6Choices = [['r', 'r', 'r', 'r'], ['b', 'b', 'b', 'b'], ['g', 'g', 'g', 'g'],
+                     ['p', 'p', 'p', 'p'], ['z', 'z', 'z', 'z'], ['w', 'w', 'w', 'w']]
+    colorCorrect += positionCorrect
+    if gameTurn < 6:
+        if colorCorrect > 0:
+            for x in newPossibility:
+                if first6Choices[gameTurn][0] not in x:
+                    if x in newPossibility:
+                        newPossibility.remove(x)
+            return first6Choices[gameTurn]
 
-
-
-# possibleCode = combinationList()
-# x = worstCaseAlgorithm(possibleCode)
-# print(x)
-
-# def nielsAlgorithm(positionCorrect, colorCorrect, possibleCode, x):#A Simple Strategy
-#     oldPossibility = []
-#     oldPossibility += possibleCode
-#     if x > 0:
-#         guesstColor = possibleCode[0]
-#         possibleCode.remove(guesstColor)
-#         colorCounter = []
-#         for c in guesstColor:
-#             colorCounter.append([c, guesstColor.count(c)])
-#         for s in colorCounter:
-#             if s[1] > 2:
-#                 keep = s[0]
-#         for i in oldPossibility:
-#             for color in guesstColor:
-#                 if color in i:
-#                     if (positionCorrect == 0) and (colorCorrect == 0):
-#                         if i in possibleCode:
-#                             possibleCode.remove(i)
-#                     elif (positionCorrect == 0) and (colorCorrect == 4):
-#                         if i not in possibleCode:
-#                             possibleCode.remove(i)
-#                     elif (positionCorrect == 2) and (colorCorrect == 2):
-#                         if i not in possibleCode:
-#                             possibleCode.remove(i)
-#                     elif (positionCorrect == 1) and (colorCorrect == 2):
-#                         if keep not in possibleCode:
-#                             possibleCode.remove(i)
-#                     elif (positionCorrect == 2) and (colorCorrect == 1):
-#                         if keep not in possibleCode:
-#                             possibleCode.remove(i)
-#     return possibleCode
+    choice = random.choice(newPossibility)
+    return choice
 
 """"Kooi, B. (2020). YET ANOTHER MASTERMIND STRATEGY. Department of Philosophy, University of Groningen, The Netherlands, 1–10."""
