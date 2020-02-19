@@ -1,5 +1,4 @@
-def checkGuess(code, codeGuess):
-    print(code)
+def feedback(code, codeGuess):
     positionCorrect = 0
     colorCorrect = 0
     codeList = []
@@ -10,8 +9,8 @@ def checkGuess(code, codeGuess):
                 colorCorrect += 1
                 codeList.remove(p)
                 break
-    for x in range(len(codeGuess)):
-        if codeGuess[x] == code[x]:
+    for i in range(len(codeGuess)):
+        if codeGuess[i] == code[i]:
             positionCorrect += 1
     colorCorrect -= positionCorrect
     return positionCorrect, colorCorrect

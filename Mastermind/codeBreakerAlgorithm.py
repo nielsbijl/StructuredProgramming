@@ -9,22 +9,19 @@ def combinationList():
                     combinations.append([color1, color2, color3, color4])
     return sorted(combinations)
 
-def simple(positionCorrect, colorCorrect, possibleCode, gameTurn):#A Simple Strategy
-    oldPossibility = []
-    oldPossibility += possibleCode
+def simpleAlgorithm(positionCorrect, colorCorrect, possibleCode, gameTurn):#A Simple Strategy
+    newPossibleCode = []
+    newPossibleCode += possibleCode
     feedback = (positionCorrect, colorCorrect)
     if gameTurn > 0:
         guesstColor = possibleCode[0]
-        oldPossibility.remove(guesstColor)
+        newPossibleCode.remove(guesstColor)
         for possibleCode in possibleCode:
-            check = checkCode.checkGuess(guesstColor, possibleCode)
+            check = checkCode.feedback(guesstColor, possibleCode)
             if check != feedback:
-                if possibleCode in oldPossibility:
-                    oldPossibility.remove(possibleCode)
-    return oldPossibility
-#possibility = combinationList()
-
-#print(simple(1, 0, possibility, 1))
+                if possibleCode in newPossibleCode:
+                    newPossibleCode.remove(possibleCode)
+    return newPossibleCode
 
 
 

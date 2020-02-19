@@ -1,33 +1,29 @@
-import codeBreaker as breaker
+import codeBreakerAlgorithm as breaker
 import checkCode as checkCode
 def mastermind():
     print(gameRules())
     player = mastermindPlayerChoice()
-    gameBord = []
-    codeGuess = [' ', ' ', ' ', ' ']
-    positionCorrect = 0
-    colorCorrect = 0
-    for emptyGameBordLine in range(10):
-        gameBord = gameBordCreate(gameBord, codeGuess, positionCorrect, colorCorrect)
-        print(gameBord[emptyGameBordLine])
+    gameBord = gameBordCreateEmptyBord()
+    for emptyGameBordLine in gameBord:
+        print(emptyGameBordLine)
     if player == 'kraker':
         code = randomCode()
     else:
         print("Verzin de geheime code!")
-        code = guess()
+        code = chooseColor()
         algorithm = input("Welk algoritme wilt u runnen? [random/simple]")
     possibleCode = breaker.combinationList() #Lijst met alle mogelijke codes
     for gameTurn in range(10):       #Vanaf hier beginnen de 10 beurten
         if player == 'kraker':
-            codeGuess = guess()
+            codeGuess = chooseColor()
         else:
-            check = checkCode.checkGuess(code, codeGuess)
+            check = checkCode.feedback(code, codeGuess)
             positionCorrect = check[0]
             colorCorrect = check[1]
             if algorithm == 'random':
                 codeGuess = randomCode()
             elif algorithm == "simple":
-                possibleCode = breaker.simple(positionCorrect, colorCorrect, possibleCode, gameTurn)
+                possibleCode = breaker.simpleAlgorithm(positionCorrect, colorCorrect, possibleCode, gameTurn)
                 codeGuess = possibleCode[0]
         gameBord = gameBordUpdate(code, gameBord, codeGuess)
         if gameBord == True:
@@ -35,12 +31,13 @@ def mastermind():
                 gameTurn + 1) + ' beurten! \n')
             break
         else:
-            for turn in gameBord:
-                print(turn)
+            for gameBordLines in gameBord:
+                print(gameBordLines)
+
 
 def gameBordUpdate(code, gameBord, codeGuess):
     print("\n")
-    check = checkCode.checkGuess(code, codeGuess)
+    check = checkCode.feedback(code, codeGuess)
     positionCorrect = check[0]
     colorCorrect = check[1]
     gameBord = gameBordCreate(gameBord[1:], codeGuess, positionCorrect, colorCorrect)
@@ -48,12 +45,19 @@ def gameBordUpdate(code, gameBord, codeGuess):
         return True
     else:
         return gameBord
-
+def gameBordCreateEmptyBord():
+    gameBord = []
+    codeGuess = [' ', ' ', ' ', ' ']
+    positionCorrect = 0
+    colorCorrect = 0
+    for emptyGameBordLine in range(10):
+        gameBord = gameBordCreate(gameBord, codeGuess, positionCorrect, colorCorrect)
+    return gameBord
 def gameBordCreate(gameBord, codeGuess, positionCorrect, colorCorrect):
     gameBordFullPlus = ["({})({})({})({})  [{}][{}] ".format(codeGuess[0], codeGuess[1], codeGuess[2], codeGuess[3], positionCorrect, colorCorrect)]
     gameBord = gameBord + gameBordFullPlus
     return gameBord
-def guess():
+def chooseColor():
     print("\n(R)ood, (B)lauw, (G)roen, (P)aars, (Z)wart en (W)it [r/b/g/p/z/w]")
     codeGuess = []
     for x in range(4):
