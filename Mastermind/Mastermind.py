@@ -1,6 +1,9 @@
 import codeBreakerAlgorithm as breaker
 import checkCode as checkCode
+import time
+import random
 def mastermind():
+    codeGuess = [' ', ' ', ' ', ' ']
     print(gameRules())
     player = mastermindPlayerChoice()
     gameBord = gameBordCreateEmptyBord()
@@ -11,7 +14,7 @@ def mastermind():
     else:
         print("Verzin de geheime code!")
         code = chooseColor()
-        algorithm = input("Welk algoritme wilt u runnen? [random/simple]")
+        algorithm = input("Welk algoritme wilt u runnen? [random/simple/worstcase]")
     possibleCode = breaker.combinationList() #Lijst met alle mogelijke codes
     for gameTurn in range(10):       #Vanaf hier beginnen de 10 beurten
         if player == 'kraker':
@@ -23,8 +26,11 @@ def mastermind():
             if algorithm == 'random':
                 codeGuess = randomCode()
             elif algorithm == "simple":
-                possibleCode = breaker.simpleAlgorithm(positionCorrect, colorCorrect, possibleCode, gameTurn)
+                possibleCode = breaker.simpleAlgorithm(positionCorrect, colorCorrect, possibleCode, gameTurn, codeGuess)
                 codeGuess = possibleCode[0]
+            elif algorithm == "worstcase":
+                possibleCode = breaker.simpleAlgorithm(positionCorrect, colorCorrect, possibleCode, gameTurn, codeGuess)
+                codeGuess = breaker.worstCaseAlgorithm(possibleCode)
         gameBord = gameBordUpdate(code, gameBord, codeGuess)
         if gameBord == True:
             print('De code is gekraakt!!! Het kostte : ' + str(
@@ -33,8 +39,6 @@ def mastermind():
         else:
             for gameBordLines in gameBord:
                 print(gameBordLines)
-
-
 def gameBordUpdate(code, gameBord, codeGuess):
     print("\n")
     check = checkCode.feedback(code, codeGuess)
